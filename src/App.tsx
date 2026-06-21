@@ -1,58 +1,34 @@
-import { useEffect, useState } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
 import Services from './components/Services';
 import Portfolio from './components/Portfolio';
+import Clients from './components/Clients';
 import Team from './components/Team';
 import WhyChooseUs from './components/WhyChooseUs';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import WhatsAppButton from './components/WhatsAppButton';
-
-function CustomCursor() {
-  const [pos, setPos] = useState({ x: -100, y: -100 });
-  const [ringPos, setRingPos] = useState({ x: -100, y: -100 });
-
-  useEffect(() => {
-    const onMove = (e: MouseEvent) => {
-      setPos({ x: e.clientX, y: e.clientY });
-      setTimeout(() => setRingPos({ x: e.clientX, y: e.clientY }), 80);
-    };
-    window.addEventListener('mousemove', onMove);
-    return () => window.removeEventListener('mousemove', onMove);
-  }, []);
-
-  return (
-    <>
-      <div
-        className="cursor-dot"
-        style={{ left: pos.x, top: pos.y }}
-      />
-      <div
-        className="cursor-ring"
-        style={{ left: ringPos.x, top: ringPos.y }}
-      />
-    </>
-  );
-}
+import Marquee from './components/Marquee';
 
 export default function App() {
   return (
     <div
       style={{
-        background: '#08111F',
+        background: '#040406',
         minHeight: '100vh',
         overflowX: 'hidden',
+        position: 'relative',
       }}
     >
-      <CustomCursor />
       <Navbar />
       <main>
         <Hero />
+        <Marquee />
         <About />
         <Services />
         <Portfolio />
+        <Clients />
         <Team />
         <WhyChooseUs />
         <Contact />

@@ -4,39 +4,41 @@ export default {
   theme: {
     extend: {
       colors: {
-        navy: {
-          950: '#020810',
-          900: '#08111F',
-          800: '#0d1a2e',
-          700: '#122240',
-          600: '#1a3356',
+        obsidian: {
+          950: '#040406',
+          900: '#07070b',
+          800: '#0b0b11',
+          700: '#101018',
+          600: '#17171f',
         },
         gold: {
-          300: '#FFE066',
-          400: '#FFD700',
-          500: '#E8C200',
-          600: '#D4AF37',
-          700: '#B8960C',
+          200: '#F7ECC9',
+          300: '#F0D98C',
+          400: '#E8C77E',
+          500: '#D4AF37',
+          600: '#C9A227',
+          700: '#A6841C',
           800: '#8B6914',
         },
-        dark: {
-          900: '#050505',
-          800: '#0a0a0a',
-          700: '#111111',
+        ivory: {
+          100: '#F6F1E7',
+          200: '#E9E1D0',
+          300: '#C6BCA6',
         },
       },
       fontFamily: {
-        serif: ['Cormorant Garamond', 'Georgia', 'serif'],
-        sans: ['Plus Jakarta Sans', 'system-ui', 'sans-serif'],
-        display: ['Cormorant Garamond', 'serif'],
-        label: ['Raleway', 'system-ui', 'sans-serif'],
+        sans: ['Vision Sans', 'Onest', 'system-ui', 'sans-serif'],
+        serif: ['Vision Sans', 'Onest', 'system-ui', 'sans-serif'],
+        display: ['Vision Sans', 'Onest', 'system-ui', 'sans-serif'],
+        label: ['Vision Sans', 'Onest', 'system-ui', 'sans-serif'],
       },
       backgroundImage: {
-        'gold-gradient': 'linear-gradient(135deg, #D4AF37 0%, #FFD700 50%, #D4AF37 100%)',
-        'gold-radial': 'radial-gradient(ellipse at center, #FFD700 0%, #D4AF37 60%, #8B6914 100%)',
-        'navy-gradient': 'linear-gradient(180deg, #08111F 0%, #050C16 100%)',
+        'gold-gradient': 'linear-gradient(135deg, #A6841C 0%, #D4AF37 35%, #F0D98C 55%, #D4AF37 75%, #A6841C 100%)',
+        'gold-radial': 'radial-gradient(ellipse at center, #F0D98C 0%, #D4AF37 55%, #8B6914 100%)',
+        'obsidian-gradient': 'linear-gradient(180deg, #07070b 0%, #040406 100%)',
       },
       animation: {
+        'spotlight': 'spotlight 2s ease .75s 1 forwards',
         'float': 'float 6s ease-in-out infinite',
         'float-slow': 'float 9s ease-in-out infinite',
         'float-fast': 'float 4s ease-in-out infinite',
@@ -48,6 +50,10 @@ export default {
         'glow': 'glow 2s ease-in-out infinite alternate',
       },
       keyframes: {
+        spotlight: {
+          '0%': { opacity: '0', transform: 'translate(-72%, -62%) scale(0.5)' },
+          '100%': { opacity: '1', transform: 'translate(-50%,-40%) scale(1)' },
+        },
         float: {
           '0%, 100%': { transform: 'translateY(0px)' },
           '50%': { transform: 'translateY(-20px)' },

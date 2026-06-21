@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
+import Magnetic from './effects/Magnetic';
 
 const NAV_LINKS = [
   { label: 'About', href: '#about' },
@@ -23,12 +24,11 @@ export default function Navbar() {
     <header
       className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
       style={{
-        background: scrolled
-          ? 'rgba(6, 12, 22, 0.96)'
-          : 'transparent',
-        backdropFilter: scrolled ? 'blur(24px) saturate(160%)' : 'none',
-        borderBottom: scrolled ? '1px solid rgba(212,175,55,0.12)' : '1px solid transparent',
-        boxShadow: scrolled ? '0 8px 40px rgba(0,0,0,0.5)' : 'none',
+        background: scrolled ? 'rgba(7, 7, 11, 0.72)' : 'transparent',
+        backdropFilter: scrolled ? 'blur(22px) saturate(160%)' : 'none',
+        WebkitBackdropFilter: scrolled ? 'blur(22px) saturate(160%)' : 'none',
+        borderBottom: scrolled ? '1px solid rgba(212,175,55,0.14)' : '1px solid transparent',
+        boxShadow: scrolled ? '0 12px 50px rgba(0,0,0,0.6)' : 'none',
       }}
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-14 py-4 flex items-center justify-between">
@@ -43,14 +43,14 @@ export default function Navbar() {
           />
           <div style={{ lineHeight: 1 }}>
             <div
-              className="font-display font-semibold"
-              style={{ fontSize: '1rem', color: '#D4AF37', letterSpacing: '0.04em' }}
+              className="font-display"
+              style={{ fontSize: '1.25rem', color: '#F6F1E7', letterSpacing: '0.02em', fontWeight: 600 }}
             >
               Mazhar
             </div>
             <div
               className="font-label"
-              style={{ fontSize: '0.55rem', color: 'rgba(212,175,55,0.5)', letterSpacing: '0.22em', textTransform: 'uppercase' }}
+              style={{ fontSize: '0.52rem', color: 'rgba(212,175,55,0.7)', letterSpacing: '0.34em', textTransform: 'uppercase', marginTop: '2px' }}
             >
               Creative Agency
             </div>
@@ -65,13 +65,15 @@ export default function Navbar() {
         </nav>
 
         {/* CTA */}
-        <a
-          href="#contact"
-          className="hidden md:inline-flex btn-gold px-5 py-2.5 rounded-full"
-          style={{ fontSize: '0.65rem' }}
-        >
-          Start a Project
-        </a>
+        <Magnetic strength={0.5} className="hidden md:block">
+          <a
+            href="#contact"
+            className="btn-gold px-5 py-2.5 rounded-full"
+            style={{ fontSize: '0.62rem' }}
+          >
+            Start a Project
+          </a>
+        </Magnetic>
 
         {/* Mobile toggle */}
         <button
@@ -87,21 +89,18 @@ export default function Navbar() {
       {/* Mobile menu */}
       <div
         style={{
-          maxHeight: menuOpen ? '380px' : '0',
+          maxHeight: menuOpen ? '420px' : '0',
           overflow: 'hidden',
-          transition: 'max-height 0.4s cubic-bezier(0.23,1,0.32,1)',
-          background: 'rgba(6,12,22,0.98)',
-          borderTop: menuOpen ? '1px solid rgba(212,175,55,0.12)' : 'none',
+          transition: 'max-height 0.5s cubic-bezier(0.16,1,0.3,1)',
+          background: 'rgba(7,7,11,0.97)',
+          backdropFilter: 'blur(22px)',
+          WebkitBackdropFilter: 'blur(22px)',
+          borderTop: menuOpen ? '1px solid rgba(212,175,55,0.14)' : 'none',
         }}
       >
         <nav className="px-6 py-7 flex flex-col gap-5">
           {NAV_LINKS.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              className="nav-link"
-              onClick={() => setMenuOpen(false)}
-            >
+            <a key={l.href} href={l.href} className="nav-link" onClick={() => setMenuOpen(false)}>
               {l.label}
             </a>
           ))}
