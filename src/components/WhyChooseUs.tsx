@@ -13,8 +13,8 @@ function ReasonCard({ icon: Icon, title, desc, index }: { icon: typeof Award; ti
     <Reveal variant="3d" delay={(index % 3) * 0.1} className="h-full">
       <Tilt3D max={10} className="h-full">
         <div
-          onMouseEnter={() => setHovered(true)}
-          onMouseLeave={() => setHovered(false)}
+          onPointerEnter={() => setHovered(true)}
+          onPointerLeave={() => setHovered(false)}
           style={{
             borderRadius: '18px', padding: '32px 28px', height: '100%', position: 'relative', cursor: 'default', overflow: 'hidden',
             background: 'radial-gradient(120% 80% at 50% -10%, rgba(212,175,55,0.07) 0%, transparent 55%), linear-gradient(160deg, #ffffff 0%, #fdfbf6 55%, #f7f1e6 100%)',

@@ -4,7 +4,7 @@ import Tilt3D from './effects/Tilt3D';
 import { useI18n } from '../i18n';
 
 const MEMBER_META = [
-  { name: 'Abdul Hanan', primary: true, initial: 'AH', photo: '' },
+  { name: 'Abdul Hanan', primary: true, initial: 'AH', photo: '/assets/images/team/hanan.jpg' },
   { name: 'Faizan Ali', primary: false, initial: 'FA', photo: '/assets/images/team/faizan.jpg' },
   { name: 'Ahmad Raza', primary: false, initial: 'AR', photo: '/assets/images/team/ahmad.jpg' },
 ];
@@ -55,8 +55,8 @@ function TeamCard({ name, role, bio, primary, initial, photo, index, photoLabel,
     <Reveal delay={index * 0.12} className="h-full">
       <Tilt3D max={12} className="h-full">
         <div
-          onMouseEnter={() => setHovered(true)}
-          onMouseLeave={() => setHovered(false)}
+          onPointerEnter={() => setHovered(true)}
+          onPointerLeave={() => setHovered(false)}
           style={{
             borderRadius: '20px',
             padding: primary ? '40px 32px' : '32px 28px',

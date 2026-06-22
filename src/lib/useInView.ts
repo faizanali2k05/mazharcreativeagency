@@ -14,6 +14,12 @@ export function useInView<T extends HTMLElement = HTMLDivElement>(
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+    // Defensive: if IntersectionObserver is unavailable, reveal immediately so
+    // content is never left stuck at opacity:0.
+    if (typeof IntersectionObserver === 'undefined') {
+      setInView(true);
+      return;
+    }
     const obs = new IntersectionObserver(([entry]) => {
       if (entry.isIntersecting) {
         setInView(true);

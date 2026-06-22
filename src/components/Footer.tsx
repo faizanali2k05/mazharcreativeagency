@@ -42,8 +42,8 @@ export default function Footer() {
               ].map((s) => (
                 <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label}
                   style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '38px', height: '38px', borderRadius: '50%', background: s.bg, border: `1px solid ${s.border}`, transition: 'all 0.3s ease', textDecoration: 'none' }}
-                  onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.transform = 'translateY(-3px)'; (e.currentTarget as HTMLElement).style.boxShadow = `0 0 18px ${s.color}55`; }}
-                  onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.transform = ''; (e.currentTarget as HTMLElement).style.boxShadow = ''; }}
+                  onPointerEnter={(e) => { (e.currentTarget as HTMLElement).style.transform = 'translateY(-3px)'; (e.currentTarget as HTMLElement).style.boxShadow = `0 0 18px ${s.color}55`; }}
+                  onPointerLeave={(e) => { (e.currentTarget as HTMLElement).style.transform = ''; (e.currentTarget as HTMLElement).style.boxShadow = ''; }}
                 >
                   <s.icon size={15} style={{ color: s.color }} />
                 </a>
@@ -57,8 +57,8 @@ export default function Footer() {
             <div className="flex flex-col gap-3">
               {quick.map((l) => (
                 <a key={l.href} href={l.href} className="font-body" style={{ fontSize: '0.875rem', color: 'rgba(246,241,231,0.5)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '8px', transition: 'color 0.3s ease' }}
-                  onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = '#E6C879'; }}
-                  onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = 'rgba(246,241,231,0.5)'; }}
+                  onPointerEnter={(e) => { (e.currentTarget as HTMLElement).style.color = '#E6C879'; }}
+                  onPointerLeave={(e) => { (e.currentTarget as HTMLElement).style.color = 'rgba(246,241,231,0.5)'; }}
                 >
                   <span style={{ width: '14px', height: '1px', background: 'rgba(212,175,55,0.5)', display: 'inline-block', flexShrink: 0 }} />
                   {l.label}
@@ -73,8 +73,8 @@ export default function Footer() {
             <div className="flex flex-col gap-3">
               {t.footer.serviceList.map((s) => (
                 <a key={s} href="#services" className="font-body" style={{ fontSize: '0.875rem', color: 'rgba(246,241,231,0.48)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '8px', transition: 'color 0.3s ease' }}
-                  onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = '#E6C879'; }}
-                  onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = 'rgba(246,241,231,0.48)'; }}
+                  onPointerEnter={(e) => { (e.currentTarget as HTMLElement).style.color = '#E6C879'; }}
+                  onPointerLeave={(e) => { (e.currentTarget as HTMLElement).style.color = 'rgba(246,241,231,0.48)'; }}
                 >
                   <span style={{ width: '14px', height: '1px', background: 'rgba(212,175,55,0.45)', display: 'inline-block', flexShrink: 0 }} />
                   {s}

@@ -14,6 +14,7 @@ const en = {
     services: 'Services',
     work: 'Work',
     team: 'Team',
+    process: 'Process',
     contact: 'Contact',
     cta: 'Start a Project',
     tagline: 'Creative Agency',
@@ -123,6 +124,21 @@ const en = {
       { title: 'Client Satisfaction', desc: 'Your success is our success. We are committed to long-term partnerships built on trust and results.' },
     ],
   },
+  process: {
+    label: 'How We Work',
+    headingLead: 'A simple, transparent ',
+    headingAccent: 'process',
+    intro:
+      'From first deposit to final delivery, every step is clear, fair, and built around your peace of mind.',
+    stepLabel: 'Step',
+    steps: [
+      { title: '50% Advance Deposit', desc: 'We confirm your selected service with a simple 50% advance — securing your slot and our full commitment to your project.' },
+      { title: 'Gather & Prepare', desc: 'We collect and organize every asset, detail, and requirement needed to bring your vision to life with precision.' },
+      { title: 'Deliver & Finalize', desc: 'We deliver your project on time, you review the finished work, and settle the remaining 50% — no surprises.' },
+    ],
+    ctaText: 'Ready to begin your project?',
+    ctaButton: 'Start Your Project',
+  },
   contact: {
     label: 'Get In Touch',
     headingLead: "Let's Build Something ",
@@ -187,6 +203,7 @@ const es: Translation = {
     services: 'Servicios',
     work: 'Proyectos',
     team: 'Equipo',
+    process: 'Proceso',
     contact: 'Contacto',
     cta: 'Iniciar Proyecto',
     tagline: 'Agencia Creativa',
@@ -295,6 +312,21 @@ const es: Translation = {
       { title: 'Calidad Premium', desc: 'La atención meticulosa al detalle en cada etapa asegura que el resultado final supere las expectativas.' },
       { title: 'Satisfacción del Cliente', desc: 'Tu éxito es nuestro éxito. Nos comprometemos con relaciones a largo plazo basadas en la confianza y los resultados.' },
     ],
+  },
+  process: {
+    label: 'Cómo Trabajamos',
+    headingLead: 'Un proceso simple y ',
+    headingAccent: 'transparente',
+    intro:
+      'Desde el primer depósito hasta la entrega final, cada paso es claro, justo y pensado para tu tranquilidad.',
+    stepLabel: 'Paso',
+    steps: [
+      { title: '50% de Anticipo', desc: 'Confirmamos el servicio seleccionado con un simple anticipo del 50%, asegurando tu lugar y nuestro compromiso total con tu proyecto.' },
+      { title: 'Reunir y Preparar', desc: 'Recopilamos y organizamos cada recurso, detalle y requisito necesario para dar vida a tu visión con precisión.' },
+      { title: 'Entregar y Finalizar', desc: 'Entregamos tu proyecto a tiempo, revisas el trabajo terminado y liquidas el 50% restante, sin sorpresas.' },
+    ],
+    ctaText: '¿Listo para empezar tu proyecto?',
+    ctaButton: 'Inicia Tu Proyecto',
   },
   contact: {
     label: 'Contáctanos',

@@ -8,7 +8,13 @@ interface Tilt3DProps {
   style?: React.CSSProperties;
 }
 
-/** Interactive 3D parallax tilt driven by pointer position. */
+/**
+ * Interactive 3D parallax tilt driven by pointer position.
+ * Uses Pointer Events so it responds to BOTH mouse (desktop) and touch
+ * (mobile). `touch-action: pan-y` keeps vertical page-scroll working — a
+ * vertical scroll-drag fires pointercancel and eases the tilt back, while a
+ * horizontal drag / tap tilts the card.
+ */
 export default function Tilt3D({
   children,
   max = 12,
@@ -19,7 +25,7 @@ export default function Tilt3D({
   const ref = useRef<HTMLDivElement>(null);
   const [t, setT] = useState({ rx: 0, ry: 0, gx: 50, gy: 50, active: false });
 
-  const onMove = (e: React.MouseEvent<HTMLDivElement>) => {
+  const onMove = (e: React.PointerEvent<HTMLDivElement>) => {
     const el = ref.current;
     if (!el) return;
     const r = el.getBoundingClientRect();
@@ -40,13 +46,16 @@ export default function Tilt3D({
     <div
       ref={ref}
       className={className}
-      onMouseMove={onMove}
-      onMouseLeave={reset}
+      onPointerMove={onMove}
+      onPointerLeave={reset}
+      onPointerUp={reset}
+      onPointerCancel={reset}
       style={{
         transform: `perspective(1000px) rotateX(${t.rx}deg) rotateY(${t.ry}deg) translateZ(0)`,
         transformStyle: 'preserve-3d',
         transition: t.active ? 'transform 0.1s ease-out' : 'transform 0.6s cubic-bezier(0.16,1,0.3,1)',
         position: 'relative',
+        touchAction: 'pan-y',
         ...style,
       }}
     >

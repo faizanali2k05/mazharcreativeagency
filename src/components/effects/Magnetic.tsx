@@ -6,11 +6,16 @@ interface MagneticProps {
   className?: string;
 }
 
-/** Wraps content so it is gently pulled toward the cursor on hover. */
+/**
+ * Wraps content so it is gently pulled toward the pointer.
+ * Pointer Events mean it works for mouse (desktop) and touch (mobile);
+ * `touch-action: pan-y` keeps vertical scrolling intact and resets the pull
+ * on pointer up / cancel so taps still register normally.
+ */
 export default function Magnetic({ children, strength = 0.4, className = '' }: MagneticProps) {
   const ref = useRef<HTMLDivElement>(null);
 
-  const onMove = (e: React.MouseEvent<HTMLDivElement>) => {
+  const onMove = (e: React.PointerEvent<HTMLDivElement>) => {
     const el = ref.current;
     if (!el) return;
     const r = el.getBoundingClientRect();
@@ -27,8 +32,11 @@ export default function Magnetic({ children, strength = 0.4, className = '' }: M
     <div
       ref={ref}
       className={`magnetic ${className}`}
-      onMouseMove={onMove}
-      onMouseLeave={reset}
+      onPointerMove={onMove}
+      onPointerLeave={reset}
+      onPointerUp={reset}
+      onPointerCancel={reset}
+      style={{ touchAction: 'pan-y' }}
     >
       {children}
     </div>

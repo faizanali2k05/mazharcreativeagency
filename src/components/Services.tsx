@@ -20,8 +20,8 @@ function ServiceCard({ icon: Icon, title, desc, index }: { icon: typeof Monitor;
         style={{ borderTop: `1px solid ${hovered ? 'rgba(240,217,140,0.7)' : 'rgba(240,217,140,0.3)'}` }}
       >
         <div
-          onMouseEnter={() => setHovered(true)}
-          onMouseLeave={() => setHovered(false)}
+          onPointerEnter={() => setHovered(true)}
+          onPointerLeave={() => setHovered(false)}
           style={{ position: 'relative' }}
         >
           <div className="font-display font-bold absolute top-0 right-0" style={{ fontSize: '0.7rem', color: 'rgba(212,175,55,0.3)', letterSpacing: '0.05em' }}>

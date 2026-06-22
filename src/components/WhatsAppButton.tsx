@@ -37,7 +37,7 @@ export default function WhatsAppButton() {
             transform: hovered ? 'translateY(-4px) scale(1.08)' : 'translateY(0) scale(1)',
             transition: 'all 0.35s cubic-bezier(0.16,1,0.3,1)', textDecoration: 'none', position: 'relative', zIndex: 1,
           }}
-          onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
+          onPointerEnter={() => setHovered(true)} onPointerLeave={() => setHovered(false)}
         >
           <MessageCircle size={23} style={{ color: '#fff' }} />
         </a>

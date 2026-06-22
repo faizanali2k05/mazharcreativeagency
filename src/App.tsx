@@ -6,6 +6,7 @@ import Portfolio from './components/Portfolio';
 import Clients from './components/Clients';
 import Team from './components/Team';
 import WhyChooseUs from './components/WhyChooseUs';
+import Process from './components/Process';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import WhatsAppButton from './components/WhatsAppButton';
@@ -31,6 +32,7 @@ export default function App() {
         <Clients />
         <Team />
         <WhyChooseUs />
+        <Process />
         <Contact />
       </main>
       <Footer />

@@ -14,6 +14,7 @@ export default function Navbar() {
     { label: t.nav.services, href: '#services' },
     { label: t.nav.work, href: '#work' },
     { label: t.nav.team, href: '#team' },
+    { label: t.nav.process, href: '#process' },
     { label: t.nav.contact, href: '#contact' },
   ];
 

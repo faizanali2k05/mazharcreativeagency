@@ -43,8 +43,8 @@ function ProjectCard({ index, title, category, desc, image, url, href, reveal }:
           href={href}
           target="_blank"
           rel="noopener noreferrer"
-          onMouseEnter={() => setHovered(true)}
-          onMouseLeave={() => setHovered(false)}
+          onPointerEnter={() => setHovered(true)}
+          onPointerLeave={() => setHovered(false)}
           style={{
             display: 'block',
             textDecoration: 'none',
