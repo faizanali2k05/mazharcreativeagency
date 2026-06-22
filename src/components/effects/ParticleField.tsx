@@ -65,7 +65,7 @@ export default function ParticleField({ density = 60, className = '', style }: P
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(240,217,140,0.7)';
+        ctx.fillStyle = 'rgba(176,138,30,0.55)';
         ctx.fill();
       }
 
@@ -78,7 +78,7 @@ export default function ParticleField({ density = 60, className = '', style }: P
             ctx.beginPath();
             ctx.moveTo(a.x, a.y);
             ctx.lineTo(b.x, b.y);
-            ctx.strokeStyle = `rgba(212,175,55,${0.14 * (1 - d / 120)})`;
+            ctx.strokeStyle = `rgba(176,138,30,${0.22 * (1 - d / 120)})`;
             ctx.lineWidth = 0.6;
             ctx.stroke();
           }
@@ -94,16 +94,29 @@ export default function ParticleField({ density = 60, className = '', style }: P
     };
     const onLeave = () => { mouse.x = -9999; mouse.y = -9999; };
 
+    // Pause the animation loop while the tab is hidden so it never burns
+    // battery/CPU in the background.
+    const onVisibility = () => {
+      if (document.hidden) {
+        cancelAnimationFrame(raf);
+      } else {
+        cancelAnimationFrame(raf);
+        raf = requestAnimationFrame(draw);
+      }
+    };
+
     resize();
     draw();
     window.addEventListener('resize', resize);
-    window.addEventListener('mousemove', onMove);
+    window.addEventListener('mousemove', onMove, { passive: true });
     window.addEventListener('mouseout', onLeave);
+    document.addEventListener('visibilitychange', onVisibility);
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener('resize', resize);
       window.removeEventListener('mousemove', onMove);
       window.removeEventListener('mouseout', onLeave);
+      document.removeEventListener('visibilitychange', onVisibility);
     };
   }, [density]);
 

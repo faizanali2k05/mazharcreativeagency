@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import { useInView } from '../../lib/useInView';
 
-type Variant = 'up' | 'left' | 'right' | 'scale' | 'blur';
+type Variant = 'up' | 'left' | 'right' | 'scale' | 'blur' | '3d';
 
 interface RevealProps {
   children: ReactNode;
@@ -18,6 +18,7 @@ const variantClass: Record<Variant, string> = {
   right: 'sr-right',
   scale: 'sr-scale',
   blur: 'sr-blur',
+  '3d': 'sr-3d',
 };
 
 /** Scroll-triggered reveal wrapper. Animates via CSS `.sr` + `.is-visible`. */

@@ -1,23 +1,15 @@
-const ITEMS = [
-  'Brand Identity',
-  'Web Design',
-  'UI / UX',
-  'Graphic Design',
-  'Social Media',
-  'App Development',
-  'Art Direction',
-  'Motion',
-];
+import { useI18n } from '../i18n';
 
 export default function Marquee() {
-  const row = [...ITEMS, ...ITEMS];
+  const { t } = useI18n();
+  const row = [...t.marquee, ...t.marquee];
   return (
     <section
       aria-hidden
       style={{
-        background: 'linear-gradient(180deg, #040406 0%, #07070b 100%)',
-        borderTop: '1px solid rgba(212,175,55,0.12)',
-        borderBottom: '1px solid rgba(212,175,55,0.12)',
+        background: 'linear-gradient(180deg, #0c0c0e 0%, #050505 100%)',
+        borderTop: '1px solid rgba(212,175,55,0.22)',
+        borderBottom: '1px solid rgba(212,175,55,0.22)',
         padding: '26px 0',
         overflow: 'hidden',
         position: 'relative',
@@ -32,7 +24,7 @@ export default function Marquee() {
                 style={{
                   fontSize: 'clamp(1.4rem, 3vw, 2.4rem)',
                   color: i % 2 === 0 ? '#F6F1E7' : 'transparent',
-                  WebkitTextStroke: i % 2 === 0 ? '0' : '1px rgba(212,175,55,0.55)',
+                  WebkitTextStroke: i % 2 === 0 ? '0' : '1px rgba(212,175,55,0.7)',
                   fontWeight: 600,
                   letterSpacing: '-0.01em',
                   padding: '0 32px',

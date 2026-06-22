@@ -1,9 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
-import ParticleField from './effects/ParticleField';
 import Magnetic from './effects/Magnetic';
-import { SplineScene } from '@/components/ui/splite';
-import { Spotlight } from '@/components/ui/spotlight';
+import { PixelCanvas } from '@/components/ui/pixel-canvas';
+import { useI18n } from '../i18n';
+import { useIsMobile, usePrefersReducedMotion } from '../lib/useMediaQuery';
+import { WHATSAPP_LINK } from '../lib/contact';
+
+// Gold-on-white pixel palette with a single ink accent for contrast.
+const PIXEL_COLORS = ['#E6C879', '#D4AF37', '#C9A227', '#B8901F', '#1C1A16'];
 
 function KineticLine({ children, delay = 0 }: { children: string; delay?: number }) {
   const ref = useRef<HTMLSpanElement>(null);
@@ -20,139 +24,140 @@ function KineticLine({ children, delay = 0 }: { children: string; delay?: number
 }
 
 export default function Hero() {
-  const [mouse, setMouse] = useState({ x: 0, y: 0 });
+  const { t } = useI18n();
+  const isMobile = useIsMobile();
+  const reduceMotion = usePrefersReducedMotion();
+  const logoRef = useRef<HTMLDivElement>(null);
 
+  // Pointer parallax on the logo — applied directly to the DOM node via a ref
+  // (rAF-throttled) so it never triggers a React re-render of the hero.
   useEffect(() => {
+    if (isMobile || reduceMotion) return;
+    let raf = 0;
     const onMove = (e: MouseEvent) => {
-      setMouse({
-        x: e.clientX / window.innerWidth - 0.5,
-        y: e.clientY / window.innerHeight - 0.5,
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        const x = (e.clientX / window.innerWidth - 0.5) * 8;
+        const y = (e.clientY / window.innerHeight - 0.5) * 6;
+        if (logoRef.current) logoRef.current.style.transform = `translate(${x}px, ${y}px)`;
       });
     };
     window.addEventListener('mousemove', onMove);
-    return () => window.removeEventListener('mousemove', onMove);
-  }, []);
+    return () => {
+      window.removeEventListener('mousemove', onMove);
+      cancelAnimationFrame(raf);
+    };
+  }, [isMobile, reduceMotion]);
 
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex items-center overflow-hidden grain"
-      style={{ background: 'radial-gradient(120% 120% at 70% 20%, #0d0d16 0%, #07070b 45%, #040406 100%)' }}
+      className="relative min-h-screen flex items-center justify-center overflow-hidden grain isolate"
+      style={{ background: 'radial-gradient(125% 125% at 50% 0%, #ffffff 0%, #faf6ee 55%, #f1e9d9 100%)' }}
     >
-      {/* Cinematic spotlight sweep */}
-      <Spotlight className="-top-40 left-0 md:-top-24 md:left-1/3" fill="rgba(212,175,55,0.55)" />
-
-      {/* Aurora + grid + particles */}
-      <div className="aurora" />
-      <div className="absolute inset-0 grid-bg" style={{ opacity: 0.55 }} />
-      <ParticleField className="absolute inset-0" style={{ opacity: 0.5 }} density={55} />
-
-      {/* Interactive 3D scene (right side) */}
-      <div className="absolute top-0 right-0 h-full hidden md:block" style={{ width: '56%', zIndex: 1 }}>
-        <SplineScene
-          scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
-          className="w-full h-full"
+      {/* Pixel ripple background (replaces the old 3D robot) */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <PixelCanvas colors={PIXEL_COLORS} gap={isMobile ? 24 : 16} speed={35} maxPixels={4200} />
+        {/* keep the center clean for the headline + fade pixels into the page */}
+        <div
+          className="absolute inset-0"
+          style={{ background: 'radial-gradient(ellipse 60% 55% at 50% 45%, rgba(255,255,255,0.86) 0%, rgba(255,255,255,0.35) 45%, transparent 75%)' }}
+        />
+        <div
+          className="absolute inset-0"
+          style={{ background: 'radial-gradient(circle at 50% 50%, transparent 55%, #ffffff 100%)' }}
         />
       </div>
 
-      {/* — MAIN CONTENT — */}
-      <div className="relative z-10 max-w-7xl mx-auto w-full px-6 lg:px-14 pt-32 pb-24 pointer-events-none">
-        <div className="max-w-3xl">
+      {/* faint aurora warmth */}
+      <div className="aurora" style={{ opacity: 0.28 }} />
 
-          {/* Logo */}
-          <div
-            className="reveal-up reveal-delay-1 mb-8"
-            style={{
-              display: 'inline-block',
-              transform: `translate(${mouse.x * 10}px, ${mouse.y * 8}px)`,
-              transition: 'transform 0.7s cubic-bezier(0.16,1,0.3,1)',
-            }}
-          >
-            <img
-              src="/assets/images/download.png"
-              alt="Mazhar Creative Agency"
-              className="logo-blend"
-              style={{ width: '78px', height: '78px', objectFit: 'contain' }}
-            />
-          </div>
+      {/* — MAIN CONTENT (centered) — */}
+      <div className="relative z-10 w-full px-6 lg:px-14 pt-28 sm:pt-24 pb-24 flex flex-col items-center text-center pointer-events-none">
 
-          {/* Eyebrow */}
-          <div className="reveal-up reveal-delay-2 flex items-center gap-4 mb-6">
-            <div className="gold-divider" style={{ width: '44px' }} />
-            <div className="section-label">Mazhar Creative Agency</div>
-            <span className="glow-dot" />
-          </div>
+        {/* Logo */}
+        <div
+          ref={logoRef}
+          className="reveal-up reveal-delay-1 mb-6"
+          style={{ display: 'inline-block', transition: 'transform 0.7s cubic-bezier(0.16,1,0.3,1)' }}
+        >
+          <img
+            src="/assets/images/download.png"
+            alt="Mazhar Creative Agency"
+            className="logo-blend"
+            style={{ width: '66px', height: '66px', objectFit: 'contain' }}
+          />
+        </div>
 
-          {/* Headline — kinetic Vision Sans */}
-          <h1
-            className="font-display"
-            style={{ fontSize: 'clamp(2.9rem, 7vw, 6.5rem)', lineHeight: 1.02, fontWeight: 700, color: '#F6F1E7', letterSpacing: '-0.035em', textShadow: '0 4px 40px rgba(0,0,0,0.6)' }}
-          >
-            <KineticLine delay={0}>Crafting visuals</KineticLine>{' '}
-            <KineticLine delay={120}>that make</KineticLine>
-            <br />
-            <em className="gold-text not-italic" style={{ fontWeight: 800 }}>
-              <KineticLine delay={260}>brands unforgettable.</KineticLine>
+        {/* Eyebrow */}
+        <div className="reveal-up reveal-delay-2 flex items-center justify-center gap-4 mb-5">
+          <div className="gold-divider" style={{ width: '36px' }} />
+          <div className="section-label">{t.hero.eyebrow}</div>
+          <span className="glow-dot" />
+        </div>
+
+        {/* Headline — black, kinetic, gold accent */}
+        <h1
+          className="font-display skeu-emboss"
+          style={{ fontSize: 'clamp(2.5rem, 7.2vw, 6.4rem)', lineHeight: 1.04, fontWeight: 800, color: '#0a0a0a', letterSpacing: '-0.035em', maxWidth: '15ch' }}
+        >
+          <KineticLine delay={0}>{t.hero.line1}</KineticLine>{' '}
+          <KineticLine delay={120}>{t.hero.line2}</KineticLine>{' '}
+          {/* Same gold as "passion & precision" in the About section — the
+              gradient must sit on the element holding the text (not an ancestor
+              of a transformed span) or background-clip:text paints nothing.
+              textShadow:none cancels the inherited white .skeu-emboss halo, which
+              otherwise bleeds through the transparent fill and washes the gold to
+              cream — About's heading has no emboss, so this matches it exactly. */}
+          <span className="reveal-up reveal-delay-3" style={{ display: 'inline-block' }}>
+            <em className="gold-text not-italic" style={{ fontWeight: 800, display: 'inline-block', textShadow: 'none' }}>
+              {t.hero.line3}
             </em>
-          </h1>
+          </span>
+        </h1>
 
-          {/* Subheadline */}
-          <p
-            className="reveal-up reveal-delay-4 font-body"
-            style={{ marginTop: '30px', fontSize: 'clamp(0.98rem, 1.8vw, 1.12rem)', color: 'rgba(246,241,231,0.6)', maxWidth: '540px', lineHeight: 1.8, fontWeight: 300, textShadow: '0 2px 20px rgba(0,0,0,0.5)' }}
-          >
-            We create exceptional websites, branding systems, digital experiences,
-            and creative assets for businesses around the globe.
-          </p>
+        {/* Subheadline */}
+        <p
+          className="reveal-up reveal-delay-4 font-body mx-auto"
+          style={{ marginTop: '26px', fontSize: 'clamp(0.98rem, 1.8vw, 1.14rem)', color: 'rgba(28,26,22,0.66)', maxWidth: '600px', lineHeight: 1.8, fontWeight: 300 }}
+        >
+          {t.hero.subtitle}
+        </p>
 
-          {/* Stats row */}
-          <div className="reveal-up reveal-delay-5 flex flex-wrap gap-10 mt-12">
-            {[
-              { v: '7+', l: 'Years Experience' },
-              { v: '200+', l: 'Satisfied Clients' },
-              { v: 'Global', l: 'Reach' },
-            ].map((s) => (
-              <div key={s.l} className="flex flex-col gap-1">
-                <span className="counter" style={{ fontSize: 'clamp(1.9rem, 2.8vw, 2.6rem)', lineHeight: 1 }}>{s.v}</span>
-                <span className="font-label" style={{ fontSize: '0.6rem', letterSpacing: '0.24em', textTransform: 'uppercase', color: 'rgba(246,241,231,0.42)' }}>{s.l}</span>
-              </div>
-            ))}
-          </div>
+        {/* Stats row */}
+        <div className="reveal-up reveal-delay-5 flex flex-wrap justify-center gap-x-10 gap-y-6 mt-10">
+          {t.hero.stats.map((s) => (
+            <div key={s.l} className="flex flex-col items-center gap-1">
+              <span className="counter" style={{ fontSize: 'clamp(1.8rem, 2.8vw, 2.6rem)', lineHeight: 1 }}>{s.v}</span>
+              <span className="font-label" style={{ fontSize: '0.6rem', letterSpacing: '0.24em', textTransform: 'uppercase', color: 'rgba(28,26,22,0.45)' }}>{s.l}</span>
+            </div>
+          ))}
+        </div>
 
-          {/* CTA Buttons */}
-          <div className="reveal-up reveal-delay-6 flex flex-wrap items-center gap-5 mt-12">
-            <Magnetic strength={0.4} className="pointer-events-auto">
-              <a
-                href="https://wa.me/923048603377"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-gold rounded-full px-8 py-4 gap-2"
-              >
-                Book Free Consultation
-                <ArrowRight size={14} strokeWidth={2.5} />
-              </a>
-            </Magnetic>
-            <Magnetic strength={0.3} className="pointer-events-auto">
-              <a href="#work" className="btn-outline rounded-full px-8 py-4 gap-2">
-                View Our Work
-                <ArrowUpRight size={14} strokeWidth={2} />
-              </a>
-            </Magnetic>
-          </div>
+        {/* CTA Buttons */}
+        <div className="reveal-up reveal-delay-6 flex flex-col sm:flex-row sm:flex-wrap sm:justify-center items-center gap-4 sm:gap-5 mt-11 w-full">
+          <Magnetic strength={0.4} className="pointer-events-auto w-full sm:w-auto">
+            <a
+              href={WHATSAPP_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-gold rounded-full px-8 py-4 gap-2 w-full sm:w-auto"
+            >
+              {t.hero.ctaPrimary}
+              <ArrowRight size={14} strokeWidth={2.5} />
+            </a>
+          </Magnetic>
+          <Magnetic strength={0.3} className="pointer-events-auto w-full sm:w-auto">
+            <a href="#work" className="btn-outline rounded-full px-8 py-4 gap-2 w-full sm:w-auto">
+              {t.hero.ctaSecondary}
+              <ArrowUpRight size={14} strokeWidth={2} />
+            </a>
+          </Magnetic>
         </div>
       </div>
 
-      {/* Scroll cue */}
-      <div
-        className="absolute left-1/2 hidden sm:flex flex-col items-center gap-2"
-        style={{ bottom: '28px', transform: 'translateX(-50%)', zIndex: 10 }}
-      >
-        <span className="font-label" style={{ fontSize: '0.5rem', letterSpacing: '0.3em', textTransform: 'uppercase', color: 'rgba(246,241,231,0.4)' }}>Scroll</span>
-        <div style={{ width: '1px', height: '46px', background: 'linear-gradient(180deg, rgba(212,175,55,0.7), transparent)' }} />
-      </div>
-
-      {/* Bottom vignette */}
-      <div className="absolute bottom-0 left-0 right-0 h-40 pointer-events-none" style={{ background: 'linear-gradient(transparent, #040406)', zIndex: 2 }} />
+      {/* Bottom vignette into next section */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 pointer-events-none" style={{ background: 'linear-gradient(transparent, #ffffff)', zIndex: 2 }} />
     </section>
   );
 }

@@ -1,85 +1,60 @@
-import { useState } from 'react';
 import Reveal from './effects/Reveal';
+import { useI18n } from '../i18n';
+import { LogoCloud, type Logo } from './ui/logo-cloud';
 
-/**
- * Client logos. Drop each transparent-background logo into
- * public/assets/images/clients/ with the matching filename below.
- * Until a file exists, a clean text wordmark is shown as a fallback.
- */
-const CLIENTS = [
-  { name: 'Montage International', file: '/assets/images/clients/montage.png' },
-  { name: 'Sessa Design & Sourcing', file: '/assets/images/clients/sessa.png' },
-  { name: 'Wymara Resort + Villas', file: '/assets/images/clients/wymara.png' },
-  { name: 'Beach Enclave', file: '/assets/images/clients/beach-enclave.png' },
-  { name: 'South Bank', file: '/assets/images/clients/south-bank.png' },
-  { name: 'Ambergris Cay', file: '/assets/images/clients/ambergris-cay.png' },
-  { name: 'Aman', file: '/assets/images/clients/aman.png' },
+/** Client logos live in public/assets/images/clients/. */
+// Aman, Wymara and South Bank read smaller at a uniform height, so they get a
+// slightly taller size class to balance the row visually.
+const LOGOS: Logo[] = [
+  { src: '/assets/images/clients/montage.png', alt: 'Montage International' },
+  { src: '/assets/images/clients/sessa.png', alt: 'Sessa Design & Sourcing' },
+  { src: '/assets/images/clients/wymara.webp', alt: 'Wymara Resort + Villas', sizeClass: 'h-12 md:h-14' },
+  { src: '/assets/images/clients/beach-enclave.png', alt: 'Beach Enclave' },
+  { src: '/assets/images/clients/south-bank.png', alt: 'South Bank', sizeClass: 'h-12 md:h-14' },
+  { src: '/assets/images/clients/ambergris-cay.png', alt: 'Ambergris Cay' },
+  { src: '/assets/images/clients/aman.png', alt: 'Aman', sizeClass: 'h-11 md:h-[3.1rem]' },
 ];
 
-function LogoItem({ name, file }: { name: string; file: string }) {
-  const [error, setError] = useState(false);
-
-  return (
-    <div className="h-12 md:h-14 flex items-center justify-center px-2">
-      {error ? (
-        <span
-          className="font-display text-center"
-          style={{ color: 'rgba(246,241,231,0.72)', fontSize: '0.95rem', letterSpacing: '0.01em', lineHeight: 1.15 }}
-        >
-          {name}
-        </span>
-      ) : (
-        <img
-          src={file}
-          alt={name}
-          title={name}
-          onError={() => setError(true)}
-          loading="lazy"
-          className="max-h-full w-auto max-w-[160px] object-contain brightness-0 invert opacity-60 hover:opacity-100 transition-all duration-500"
-        />
-      )}
-    </div>
-  );
-}
-
 export default function Clients() {
-  return (
-    <section id="clients" className="section-padding relative overflow-hidden" style={{ background: 'linear-gradient(180deg, #07070b 0%, #040406 100%)' }}>
-      <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse 70% 50% at 50% 0%, rgba(212,175,55,0.05) 0%, transparent 70%)' }} />
+  const { t } = useI18n();
 
-      <div className="max-w-7xl mx-auto px-6 lg:px-14 relative z-10">
+  return (
+    <section
+      id="clients"
+      className="section-padding relative overflow-hidden"
+      style={{ background: 'linear-gradient(180deg, #faf6ee 0%, #ffffff 100%)' }}
+    >
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{ background: 'radial-gradient(ellipse 70% 50% at 50% 0%, rgba(212,175,55,0.07) 0%, transparent 70%)' }}
+      />
+
+      <div className="max-w-5xl mx-auto px-6 lg:px-14 relative z-10">
         {/* Header */}
-        <div className="text-center mb-14">
+        <div className="text-center mb-12 sm:mb-14">
           <Reveal>
             <div className="section-label mb-5 flex items-center justify-center gap-3">
               <div className="gold-divider" style={{ width: '36px' }} />
-              Our Clients
+              {t.clients.label}
               <div className="gold-divider" style={{ width: '36px' }} />
             </div>
           </Reveal>
           <Reveal delay={0.08}>
-            <h2 className="font-display" style={{ fontSize: 'clamp(2rem, 4.5vw, 3.6rem)', color: '#F6F1E7', lineHeight: 1.1, fontWeight: 700 }}>
-              Trusted by the world's{' '}
-              <em className="gold-text not-italic">finest brands</em>
+            <h2 className="font-display" style={{ fontSize: 'clamp(1.9rem, 4.5vw, 3.6rem)', color: '#1c1a16', lineHeight: 1.1, fontWeight: 700 }}>
+              {t.clients.headingLead}
+              <em className="gold-text gold-emboss not-italic">{t.clients.headingAccent}</em>
             </h2>
           </Reveal>
           <Reveal delay={0.16}>
-            <p className="font-body mx-auto" style={{ maxWidth: '560px', marginTop: '16px', color: 'rgba(246,241,231,0.5)', fontSize: '0.98rem', lineHeight: 1.75, fontWeight: 300 }}>
-              We're proud to craft visuals for leading hospitality and lifestyle
-              names across the globe.
+            <p className="font-body mx-auto" style={{ maxWidth: '560px', marginTop: '16px', color: 'rgba(28,26,22,0.55)', fontSize: '0.98rem', lineHeight: 1.75, fontWeight: 300 }}>
+              {t.clients.intro}
             </p>
           </Reveal>
         </div>
 
-        {/* Logo wall — perfectly aligned, evenly spaced */}
+        {/* Infinite logo slider */}
         <Reveal delay={0.1}>
-          <div className="border-card" style={{ padding: '44px 32px' }}>
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-x-8 gap-y-12 items-center">
-              {CLIENTS.map((c) => (
-                <LogoItem key={c.name} {...c} />
-              ))}
-            </div>
-          </div>
+          <LogoCloud logos={LOGOS} />
         </Reveal>
       </div>
     </section>
