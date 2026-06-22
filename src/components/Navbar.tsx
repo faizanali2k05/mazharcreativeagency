@@ -34,26 +34,26 @@ export default function Navbar() {
         boxShadow: scrolled ? '0 12px 40px rgba(60,45,15,0.12)' : 'none',
       }}
     >
-      <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-14 py-3.5 sm:py-4 flex items-center justify-between gap-3">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-14 py-3.5 sm:py-4 flex items-center justify-between gap-2 sm:gap-3">
 
         {/* Logo */}
-        <a href="#" className="flex items-center gap-2.5 sm:gap-3 min-w-0" style={{ textDecoration: 'none' }}>
+        <a href="#" className="flex items-center gap-2 sm:gap-3 min-w-0" style={{ textDecoration: 'none' }}>
           <img
             src="/assets/images/download.png"
             alt="Mazhar Creative Agency"
             className="logo-blend"
-            style={{ width: '38px', height: '38px', objectFit: 'contain', flexShrink: 0 }}
+            style={{ width: '36px', height: '36px', objectFit: 'contain', flexShrink: 0 }}
           />
-          <div style={{ lineHeight: 1 }} className="min-w-0">
+          <div style={{ lineHeight: 1 }} className="flex-shrink-0">
             <div
-              className="font-display truncate"
-              style={{ fontSize: '1.18rem', color: '#1c1a16', letterSpacing: '0.02em', fontWeight: 600 }}
+              className="font-display whitespace-nowrap"
+              style={{ fontSize: 'clamp(1rem, 4.4vw, 1.18rem)', color: '#1c1a16', letterSpacing: '0.02em', fontWeight: 600 }}
             >
               Mazhar
             </div>
             <div
-              className="font-label truncate"
-              style={{ fontSize: '0.5rem', color: '#6E520F', letterSpacing: '0.32em', textTransform: 'uppercase', marginTop: '2px' }}
+              className="font-label whitespace-nowrap"
+              style={{ fontSize: 'clamp(0.46rem, 1.9vw, 0.5rem)', color: '#6E520F', letterSpacing: '0.18em', textTransform: 'uppercase', marginTop: '2px' }}
             >
               {t.nav.tagline}
             </div>
@@ -68,14 +68,14 @@ export default function Navbar() {
         </nav>
 
         {/* Right cluster */}
-        <div className="flex items-center gap-3 lg:gap-5">
+        <div className="flex items-center gap-2 sm:gap-3 lg:gap-5 flex-shrink-0">
           <LanguageToggle className="hidden sm:flex" />
 
-          <Magnetic strength={0.5} className="hidden md:block">
+          <Magnetic strength={0.5}>
             <a
               href="#contact"
-              className="btn-gold px-5 py-2.5 rounded-full whitespace-nowrap"
-              style={{ fontSize: '0.62rem' }}
+              className="btn-gold rounded-full whitespace-nowrap px-3 py-1.5 sm:px-5 sm:py-2.5"
+              style={{ fontSize: 'clamp(0.48rem, 1.7vw, 0.62rem)', letterSpacing: '0.1em' }}
             >
               {t.nav.cta}
             </a>
