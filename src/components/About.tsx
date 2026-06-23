@@ -1,32 +1,48 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { useInView } from '../lib/useInView';
+import { usePrefersReducedMotion } from '../lib/useMediaQuery';
 import Reveal from './effects/Reveal';
 import Tilt3D from './effects/Tilt3D';
 import { useI18n } from '../i18n';
 
-const STAT_TARGETS = [7, 200];
+const STAT_TARGETS = [6, 200];
 
 function AnimatedCounter({ target, suffix = '' }: { target: number; suffix?: string }) {
   const { ref, inView } = useInView<HTMLSpanElement>({ threshold: 0.5 });
-  const [count, setCount] = useState(0);
+  const reduceMotion = usePrefersReducedMotion();
 
+  // Write the value straight to the DOM node each frame instead of via React
+  // state — this avoids a component re-render on every animation frame, which
+  // (combined with tabular figures below) keeps the count buttery smooth.
   useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    if (reduceMotion) {
+      el.textContent = `${target}${suffix}`;
+      return;
+    }
     if (!inView) return;
-    let start = 0;
-    const duration = 1800;
-    const step = (timestamp: number) => {
-      if (!start) start = timestamp;
-      const progress = Math.min((timestamp - start) / duration, 1);
-      const ease = 1 - Math.pow(1 - progress, 4);
-      setCount(Math.floor(ease * target));
-      if (progress < 1) requestAnimationFrame(step);
+    let raf = 0;
+    let startTs = 0;
+    const duration = 1600;
+    const tick = (ts: number) => {
+      if (!startTs) startTs = ts;
+      const p = Math.min((ts - startTs) / duration, 1);
+      const eased = 1 - Math.pow(1 - p, 4);
+      el.textContent = `${Math.round(eased * target)}${suffix}`;
+      if (p < 1) raf = requestAnimationFrame(tick);
     };
-    requestAnimationFrame(step);
-  }, [inView, target]);
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [inView, target, suffix, reduceMotion, ref]);
 
   return (
-    <span ref={ref} className="counter" style={{ fontSize: 'clamp(2.8rem, 5vw, 4.6rem)', lineHeight: 1 }}>
-      {count}{suffix}
+    <span
+      ref={ref}
+      className="counter"
+      style={{ fontSize: 'clamp(2.8rem, 5vw, 4.6rem)', lineHeight: 1, display: 'inline-block', fontVariantNumeric: 'tabular-nums' }}
+    >
+      {`0${suffix}`}
     </span>
   );
 }

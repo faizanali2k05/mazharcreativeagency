@@ -76,10 +76,9 @@ function ProjectCard({ index, title, category, desc, image, url, href, reveal }:
             <ExternalLink size={12} strokeWidth={1.5} style={{ color: 'rgba(212,175,55,0.4)', flexShrink: 0 }} />
           </div>
 
-          {/* Screenshot */}
-          <div className="project-img-wrap" style={{ height: '230px' }}>
+          {/* Screenshot — box hugs the image so there is never empty space */}
+          <div className="project-img-wrap">
             <img src={image} alt={`${title} — ${category}`} style={{ width: '100%', height: 'auto', display: 'block', transform: hovered ? 'scale(1.03)' : 'scale(1)', transition: 'transform 0.7s cubic-bezier(0.16,1,0.3,1)', transformOrigin: 'top center' }} />
-            <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '90px', background: 'linear-gradient(transparent, rgba(255,255,255,0.92))', pointerEvents: 'none' }} />
           </div>
 
           {/* Info bar */}
@@ -131,7 +130,7 @@ export default function Portfolio() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7 items-start">
           {projects.map((p, i) => (
             <ProjectCard key={p.title} {...p} reveal={REVEALS[i] ?? 'up'} />
           ))}

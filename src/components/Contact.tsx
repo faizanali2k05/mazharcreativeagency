@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { MessageCircle, Instagram, ChevronDown, Mail } from 'lucide-react';
 import Reveal from './effects/Reveal';
 import Magnetic from './effects/Magnetic';
@@ -7,24 +7,42 @@ import { WHATSAPP_LINK, WHATSAPP_DISPLAY, EMAIL, EMAIL_LINK, INSTAGRAM_LINK, INS
 
 export default function Contact() {
   const { t } = useI18n();
-  const [submitted, setSubmitted] = useState(false);
+  const [submitted, setSubmitted] = useState<null | 'whatsapp' | 'email'>(null);
   const [form, setForm] = useState({ name: '', email: '', service: '', details: '' });
+  const formRef = useRef<HTMLFormElement>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!form.name || !form.email || !form.service) return;
+  // Build the enquiry text. `bold` wraps labels in * * for WhatsApp markdown;
+  // email uses the same lines as plain text.
+  const buildMessage = (bold: boolean) => {
     const wa = t.contact.wa;
-    const msg = [
-      `*${wa.title}*`, ``,
-      `*${wa.name}:* ${form.name}`, `*${wa.email}:* ${form.email}`,
-      `*${wa.service}:* ${form.service}`, `*${wa.message}:* ${form.details || wa.na}`,
+    const lbl = (s: string) => (bold ? `*${s}*` : s);
+    return [
+      lbl(wa.title), '',
+      `${lbl(wa.name)}: ${form.name}`,
+      `${lbl(wa.email)}: ${form.email}`,
+      `${lbl(wa.service)}: ${form.service}`,
+      `${lbl(wa.message)}: ${form.details || wa.na}`,
     ].join('\n');
-    window.open(whatsappWithText(msg), '_blank');
-    setSubmitted(true);
+  };
+
+  // Client chooses the channel. Both reuse the form's native validation.
+  const sendWhatsapp = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formRef.current?.reportValidity()) return;
+    window.open(whatsappWithText(buildMessage(true)), '_blank');
+    setSubmitted('whatsapp');
+  };
+
+  const sendEmail = () => {
+    if (!formRef.current?.reportValidity()) return;
+    const subject = encodeURIComponent(t.contact.wa.title);
+    const body = encodeURIComponent(buildMessage(false));
+    window.location.href = `mailto:${EMAIL}?subject=${subject}&body=${body}`;
+    setSubmitted('email');
   };
 
   const contactLinks = [
@@ -95,16 +113,18 @@ export default function Contact() {
               {submitted ? (
                 <div className="flex flex-col items-center justify-center py-14 text-center gap-5">
                   <div style={{ width: '64px', height: '64px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, #D4AF37, #B8901F)', boxShadow: '0 0 35px rgba(212,175,55,0.5)' }}>
-                    <MessageCircle size={26} style={{ color: '#1a1306' }} />
+                    {submitted === 'email'
+                      ? <Mail size={26} style={{ color: '#1a1306' }} />
+                      : <MessageCircle size={26} style={{ color: '#1a1306' }} />}
                   </div>
-                  <h3 className="font-display font-semibold" style={{ fontSize: '1.7rem', color: '#1c1a16' }}>{t.contact.successTitle}</h3>
+                  <h3 className="font-display font-semibold" style={{ fontSize: '1.7rem', color: '#1c1a16' }}>{submitted === 'email' ? t.contact.successTitleEmail : t.contact.successTitle}</h3>
                   <p className="font-body" style={{ color: 'rgba(28,26,22,0.55)', fontSize: '0.92rem', maxWidth: '320px', lineHeight: 1.65, fontWeight: 300 }}>
-                    {t.contact.successText}
+                    {submitted === 'email' ? t.contact.successTextEmail : t.contact.successText}
                   </p>
-                  <button onClick={() => { setSubmitted(false); setForm({ name: '', email: '', service: '', details: '' }); }} className="btn-outline rounded-full px-6 py-2.5 mt-2" style={{ fontSize: '0.65rem' }}>{t.contact.sendAnother}</button>
+                  <button onClick={() => { setSubmitted(null); setForm({ name: '', email: '', service: '', details: '' }); }} className="btn-outline rounded-full px-6 py-2.5 mt-2" style={{ fontSize: '0.65rem' }}>{t.contact.sendAnother}</button>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+                <form ref={formRef} onSubmit={sendWhatsapp} className="flex flex-col gap-5">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div className="flex flex-col gap-2">
                       <label htmlFor="name" className="font-label" style={{ fontSize: '0.6rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(28,26,22,0.45)' }}>{t.contact.nameLabel}</label>
@@ -132,15 +152,23 @@ export default function Contact() {
                     <textarea id="details" name="details" rows={5} value={form.details} onChange={handleChange} placeholder={t.contact.messagePlaceholder} className="input-skeu rounded-xl px-4 py-3 resize-none" />
                   </div>
 
-                  <Magnetic strength={0.25}>
-                    <button type="submit" className="btn-gold rounded-full py-4 gap-3 mt-2 w-full" style={{ fontSize: '0.68rem' }}>
-                      <MessageCircle size={15} strokeWidth={2} />
-                      {t.contact.submit}
-                    </button>
-                  </Magnetic>
+                  <div className="flex flex-col sm:flex-row gap-3 mt-2">
+                    <Magnetic strength={0.2} className="flex-1">
+                      <button type="submit" className="btn-gold rounded-full py-4 gap-2.5 w-full" style={{ fontSize: '0.66rem' }}>
+                        <MessageCircle size={15} strokeWidth={2} />
+                        {t.contact.submitWhatsapp}
+                      </button>
+                    </Magnetic>
+                    <Magnetic strength={0.2} className="flex-1">
+                      <button type="button" onClick={sendEmail} className="btn-outline rounded-full py-4 gap-2.5 w-full" style={{ fontSize: '0.66rem' }}>
+                        <Mail size={15} strokeWidth={2} />
+                        {t.contact.submitEmail}
+                      </button>
+                    </Magnetic>
+                  </div>
 
                   <p className="font-body text-center" style={{ fontSize: '0.72rem', color: 'rgba(28,26,22,0.3)', marginTop: '-4px' }}>
-                    {t.contact.submitHelper}
+                    {t.contact.chooseHelper}
                   </p>
                 </form>
               )}

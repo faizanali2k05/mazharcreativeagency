@@ -28,7 +28,7 @@ const en = {
     subtitle:
       'We create exceptional websites, branding systems, digital experiences, and creative assets for businesses around the globe.',
     stats: [
-      { v: '7+', l: 'Years Experience' },
+      { v: '6+', l: 'Years Experience' },
       { v: '200+', l: 'Satisfied Clients' },
       { v: 'Global', l: 'Reach' },
     ],
@@ -47,7 +47,7 @@ const en = {
     intro:
       'We are a creative agency dedicated to building extraordinary visual identities, digital experiences, and brand systems that leave lasting impressions.',
     stats: [
-      { suffix: '+', label: 'Years Experience', desc: 'Over seven years delivering creative excellence across industries and continents.' },
+      { suffix: '+', label: 'Years Experience', desc: 'Over six years delivering creative excellence across industries and continents.' },
       { suffix: '+', label: 'Satisfied Clients', desc: 'Trusted by over two hundred businesses who rely on us for their visual identity.' },
     ],
     pillars: [
@@ -104,7 +104,7 @@ const en = {
       'A tight-knit team of specialists united by a singular obsession: creating work that makes brands stand apart.',
     photo: 'Photo',
     members: [
-      { role: 'Founder & CEO', bio: 'Visionary leader with 7+ years driving creative excellence and strategic growth for clients worldwide.' },
+      { role: 'Founder & CEO', bio: 'Visionary leader with 6+ years driving creative excellence and strategic growth for clients worldwide.' },
       { role: 'Developer', bio: 'Full-stack developer crafting powerful, performant digital experiences from code to deployment.' },
       { role: 'Graphics & UI/UX Designer', bio: 'Creative designer specializing in intuitive interfaces and stunning visual identities.' },
     ],
@@ -148,7 +148,7 @@ const en = {
     panelTitle: 'Start Your Project',
     panelDesc: 'Fill out the form and your message will be sent directly to our WhatsApp. We respond within 24 hours.',
     howItWorks: 'How it works',
-    howItWorksText: 'Submitting the form will open WhatsApp with your details pre-filled, ready to send directly to our team.',
+    howItWorksText: 'Fill the form and choose WhatsApp or Email — your details are pre-filled, ready to send to our team. No WhatsApp? Email works just the same.',
     nameLabel: 'Your Name',
     namePlaceholder: 'Full name',
     emailLabel: 'Email Address',
@@ -157,10 +157,13 @@ const en = {
     servicePlaceholder: 'Select a service…',
     messageLabel: 'Message',
     messagePlaceholder: 'Tell us about your project, goals, and timeline…',
-    submit: 'Send Message via WhatsApp',
-    submitHelper: 'Your message will open pre-filled in WhatsApp',
+    submitWhatsapp: 'Send via WhatsApp',
+    submitEmail: 'Send via Email',
+    chooseHelper: 'Pick whichever suits you — WhatsApp or Email. We reply within 24 hours.',
     successTitle: 'WhatsApp Opened!',
     successText: "Your message has been pre-filled in WhatsApp. Just hit send and we'll get back to you within 24 hours.",
+    successTitleEmail: 'Email Ready!',
+    successTextEmail: "Your message has been pre-filled in your email app. Just hit send and we'll get back to you within 24 hours.",
     sendAnother: 'Send Another',
     serviceOptions: [
       'Website Design & Redesign',
@@ -217,7 +220,7 @@ const es: Translation = {
     subtitle:
       'Creamos sitios web excepcionales, sistemas de marca, experiencias digitales y recursos creativos para empresas de todo el mundo.',
     stats: [
-      { v: '7+', l: 'Años de Experiencia' },
+      { v: '6+', l: 'Años de Experiencia' },
       { v: '200+', l: 'Clientes Satisfechos' },
       { v: 'Global', l: 'Alcance' },
     ],
@@ -236,7 +239,7 @@ const es: Translation = {
     intro:
       'Somos una agencia creativa dedicada a construir identidades visuales extraordinarias, experiencias digitales y sistemas de marca que dejan una impresión duradera.',
     stats: [
-      { suffix: '+', label: 'Años de Experiencia', desc: 'Más de siete años entregando excelencia creativa en distintas industrias y continentes.' },
+      { suffix: '+', label: 'Años de Experiencia', desc: 'Más de seis años entregando excelencia creativa en distintas industrias y continentes.' },
       { suffix: '+', label: 'Clientes Satisfechos', desc: 'La confianza de más de doscientas empresas que cuentan con nosotros para su identidad visual.' },
     ],
     pillars: [
@@ -293,7 +296,7 @@ const es: Translation = {
       'Un equipo unido de especialistas con una sola obsesión: crear trabajo que hace destacar a las marcas.',
     photo: 'Foto',
     members: [
-      { role: 'Fundador y CEO', bio: 'Líder visionario con más de 7 años impulsando la excelencia creativa y el crecimiento estratégico de clientes en todo el mundo.' },
+      { role: 'Fundador y CEO', bio: 'Líder visionario con más de 6 años impulsando la excelencia creativa y el crecimiento estratégico de clientes en todo el mundo.' },
       { role: 'Desarrollador', bio: 'Desarrollador full-stack que crea experiencias digitales potentes y de alto rendimiento, del código al despliegue.' },
       { role: 'Diseñador Gráfico y UI/UX', bio: 'Diseñador creativo especializado en interfaces intuitivas e identidades visuales impactantes.' },
     ],
@@ -337,7 +340,7 @@ const es: Translation = {
     panelTitle: 'Inicia Tu Proyecto',
     panelDesc: 'Completa el formulario y tu mensaje se enviará directamente a nuestro WhatsApp. Respondemos en 24 horas.',
     howItWorks: 'Cómo funciona',
-    howItWorksText: 'Al enviar el formulario se abrirá WhatsApp con tus datos completados, listo para enviar directamente a nuestro equipo.',
+    howItWorksText: 'Completa el formulario y elige WhatsApp o Correo — tus datos se completan, listos para enviar a nuestro equipo. ¿Sin WhatsApp? El correo funciona igual.',
     nameLabel: 'Tu Nombre',
     namePlaceholder: 'Nombre completo',
     emailLabel: 'Correo Electrónico',
@@ -346,10 +349,13 @@ const es: Translation = {
     servicePlaceholder: 'Selecciona un servicio…',
     messageLabel: 'Mensaje',
     messagePlaceholder: 'Cuéntanos sobre tu proyecto, objetivos y plazos…',
-    submit: 'Enviar Mensaje por WhatsApp',
-    submitHelper: 'Tu mensaje se abrirá ya completado en WhatsApp',
+    submitWhatsapp: 'Enviar por WhatsApp',
+    submitEmail: 'Enviar por Correo',
+    chooseHelper: 'Elige lo que prefieras — WhatsApp o Correo. Respondemos en 24 horas.',
     successTitle: '¡WhatsApp Abierto!',
     successText: 'Tu mensaje se ha completado en WhatsApp. Solo pulsa enviar y te responderemos en 24 horas.',
+    successTitleEmail: '¡Correo Listo!',
+    successTextEmail: 'Tu mensaje se ha completado en tu app de correo. Solo pulsa enviar y te responderemos en 24 horas.',
     sendAnother: 'Enviar Otro',
     serviceOptions: [
       'Diseño y Rediseño Web',
